@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Omicron Intro to Mongoose with Books</title>
+    <script src="/vendor/angular.min.js"></script>
+    <script src="/scripts/app.js"></script>
+    <!-- script in controller -->
+    <script src="/scripts/controllers/bookController.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+    <link rel="stylesheet" href="/vendor/normalize.css" />
+    <link rel="stylesheet" href="/vendor/skeleton.css" />
+    <link rel="stylesheet" href="/styles/stylesheet.css" />
+  </head>
+  <!-- ng-app: ties angular functionality into DOM -->
+  <body ng-app="bookApp">
+    <!-- link the controller with ng-controller -->
+    <main class="container" ng-controller="bookController">
+      <h1>So Books Right</h1>
+      <!-- Submit a book -->
+      <section id="bookSubmission" class="row">
+        <h2>Submit a Book</h2>
+        <form id="bookForm">
+          <div class="row">
+            <div class="three columns">
+              <label for="title">Title:</label>
+              <!-- our ng-models should be linkted to the array and fields we have set in book.js and bookController.js -->
+              <input type="text" id="currentBookTitle" name="title" ng-model="newBook.title"/>
+            </div>
+
+            <div class="three columns">
+              <label for="author">Author:</label>
+              <input type="text" id="currentBookAuthor" name="author" ng-model="newBook.author"/>
+            </div>
+
+            <div class="three columns">
+              <label for="publishedBy">Published By:</label>
+              <input type="text" id="currentBookPublishedBy" name="publishedBy" ng-model="newBook.publishedBy"/>
+            </div>
+
+            <div class="three columns">
+              <label for="publishDate">Publish Date:</label>
+              <input type="date" id="currentBookPublishDate" name="publishDate" ng-model="newBook.publishDate"/>
+              <!-- call the function on ng-click -->
+              <button ng-click="submitNewBook()">Submit</button>
+            </div>
+          </div>
+        </form>
+      </section>
+      <!-- See submitted books -->
+      <section id="books" class="row">
+        <h2>Book Listing</h2>
+        <label for="drop-down">Sort:</label>
+        <select class="drop-down" ng-model="optionChoice">
+          <option value="title">Title, A-Z</option>
+          <option value="-title">Title, Z-A</option>
+        </select>
+        <!-- put here and not in book row because all those thigns are in the book row and we want to repeat the row -->
+          <div id="bookList" ng-repeat="book in books | orderBy:optionChoice">
+            <div class="book row">
+              <div class="three columns">
+                <label for="title">Title:</label>
+                <!-- use ng-model so the data will show and we can chage; -->
+                <input type="text" id="title" name="title" ng-model="book.title"/>
+              </div>
+
+              <div class="three columns">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" ng-model="book.author"/>
+              </div>
+
+              <div class="two columns">
+                <label for="publishedBy">Published By:</label>
+                <input type="text" id="publishedBy" name="publishedBy" ng-model="book.publishedBy"/>
+              </div>
+
+              <div class="two columns">
+                <label for="publishDate">Publish Date:</label>
+                <input type="date" id="publishDate" name="publishDate" ng-model="book.publishDate"/>
+                <!-- ng-clicks added to run put and delete functions -->
+              </div>
+
+              <div class="two columns">
+                <button class="update" ng-click="updateBook(book)">Update</button>
+                <!-- this is the data that we will be passing book._id -->
+                <button class="delete" ng-click="deleteBook(book._id)">Delete</button>
+                <!-- have a books schema with an added comment field that will display here -->
+                <button class="comment" ng-click="displayComments(book._id)">Comments</button>
+              </div>
+
+                <div ng-show="displayBookId == book._id">
+
+                  <!-- comment functionality -->
+                  <form id="commentForm">
+                    <div class="eight columns">
+                      <label for="comment">Comment:</label>
+                      <textarea id="comment" cols="70" name="comment" ng-model="newComment.content"></textarea>
+                    </div>
+                    <div class="two columns">
+                      <label for="postedBy">Posted By:</label>
+                      <input type="text" id="postedBy" name="postedBy" ng-model="newComment.postedBy"/>
+                    </div>
+                    <div class="one column">
+                      <button ng-click="submitComment(book._id)">Submit</button>
+                    </div>
+                  </form>
+                  <div class="twelve columns">
+                    <h3>Comments:</h3>
+                    <div ng-repeat="comment in book.comments"
+                      <p>
+                      {{comment.content}} - {{comment.postedBy}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </section>
+    </main>
+  </body>
+</html>

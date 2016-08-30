@@ -1,0 +1,28 @@
+h1 {
+  font-family: 'Abril Fatface', cursive;
+}
+
+#bookList input {
+  border-style: none;
+  padding-left: 0;
+}
+
+#bookSubmission h2 {
+  background-color: yellowgreen;
+}
+
+#bookSubmission button {
+  background-color: yellowgreen;
+  border-color: yellowgreen;
+  color: white;
+}
+
+#books h2 {
+  background-color: crimson;
+}
+
+#books button {
+  background-color: crimson;
+  border-color: crimson;
+  color: white;
+}
